@@ -253,7 +253,7 @@ PASO 2: Si SÍ pertenece a Fresa, Aguaymanto, Papa o Cebolla:
 `;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
+        model: 'gemini-3.5-flash-lite',
         contents: {
           parts: [
             {

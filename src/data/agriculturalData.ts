@@ -414,17 +414,8 @@ export const SAMPLE_PEST_CASES: SamplePestCase[] = [
     title: 'Gusano del Fruto en Aguaymanto',
     pestName: 'Heliothis subflexa',
     severity: 'Moderado',
-    imageUrl: 'https://images.unsplash.com/photo-1596797882870-8c33deeac224?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/aguaymanto_sample.jpg',
     description: 'Perforaciones redondeadas en el capacho o cáliz protector y excrementos dentro del fruto de aguaymanto.'
-  },
-  {
-    id: 'sample-papa-sana',
-    crop: 'Papa',
-    title: 'Planta de Papa Saludable (Sin plaga)',
-    pestName: 'Follaje Óptimo',
-    severity: 'Saludable',
-    imageUrl: 'https://images.unsplash.com/photo-1590165482129-1b8b27698980?auto=format&fit=crop&w=800&q=80',
-    description: 'Hojas verdes túrgidas, peciolos firmes y vigor vegetativo balanceado sin síntomas de enfermedad.'
   }
 ];
 

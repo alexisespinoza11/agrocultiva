@@ -48,13 +48,17 @@ export const PestDetection: React.FC<PestDetectionProps> = ({
       return;
     }
 
-    setMimeType(file.type);
+    const type = file.type;
+    setMimeType(type);
     setErrorMsg(null);
     setDiagnosis(null);
 
     const reader = new FileReader();
     reader.onload = () => {
-      setSelectedImage(reader.result as string);
+      const base64 = reader.result as string;
+      setSelectedImage(base64);
+      // Analiza directamente de forma automática e inteligente
+      runAnalysis(undefined, base64, type);
     };
     reader.readAsDataURL(file);
   };
@@ -69,18 +73,22 @@ export const PestDetection: React.FC<PestDetectionProps> = ({
       return;
     }
 
-    setMimeType(file.type);
+    const type = file.type;
+    setMimeType(type);
     setErrorMsg(null);
     setDiagnosis(null);
 
     const reader = new FileReader();
     reader.onload = () => {
-      setSelectedImage(reader.result as string);
+      const base64 = reader.result as string;
+      setSelectedImage(base64);
+      // Analiza directamente de forma automática e inteligente
+      runAnalysis(undefined, base64, type);
     };
     reader.readAsDataURL(file);
   };
 
-  const runAnalysis = async (customSampleId?: string, customImage?: string) => {
+  const runAnalysis = async (customSampleId?: string, customImage?: string, customMime?: string) => {
     const imageToAnalyze = customImage || selectedImage;
     if (!imageToAnalyze && !customSampleId) {
       setErrorMsg('Primero suba una fotografía o seleccione una muestra de campo.');
@@ -97,7 +105,7 @@ export const PestDetection: React.FC<PestDetectionProps> = ({
         payload.sampleId = customSampleId;
       } else if (imageToAnalyze) {
         payload.imageBase64 = imageToAnalyze;
-        payload.mimeType = mimeType;
+        payload.mimeType = customMime || mimeType;
       }
 
       const res = await fetch('/api/diagnose', {
@@ -260,13 +268,15 @@ Agrocultiva - Sistema Fitosanitario`;
                     referrerPolicy="no-referrer"
                     className="max-h-72 w-full object-contain"
                   />
-                  {/* Laser scan line matching Clean Minimalism */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-emerald-400 opacity-60 shadow-[0_0_10px_#10b981] animate-scanline pointer-events-none" />
+                  {/* Laser scan line matching Clean Minimalism - visible while analyzing */}
+                  {isAnalyzing && (
+                    <div className="absolute top-0 left-0 w-full h-1 bg-emerald-400 opacity-80 shadow-[0_0_12px_#10b981] animate-scanline pointer-events-none" />
+                  )}
 
                   {isAnalyzing && (
                     <div className="absolute inset-0 bg-gray-900/70 backdrop-blur-xs flex flex-col items-center justify-center text-white p-4">
                       <div className="w-10 h-10 border-3 border-emerald-400 border-t-transparent rounded-full animate-spin mb-3" />
-                      <p className="font-mono text-xs text-emerald-400">Analizando muestra fitopatológica...</p>
+                      <p className="font-mono text-xs text-emerald-400 font-medium">Analizando muestra fitopatológica con IA...</p>
                       <p className="text-[10px] text-gray-400 mt-1">Validando catálogo: Fresa, Aguaymanto, Papa, Cebolla</p>
                     </div>
                   )}
@@ -276,21 +286,39 @@ Agrocultiva - Sistema Fitosanitario`;
                   <button
                     id="reupload-photo-btn"
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition-colors cursor-pointer"
+                    onClick={() => {
+                      if (fileInputRef.current) fileInputRef.current.value = '';
+                      fileInputRef.current?.click();
+                    }}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition-colors cursor-pointer shadow-2xs"
                   >
-                    Cambiar foto
+                    <Upload className="w-3.5 h-3.5 text-gray-500" />
+                    <span>Cambiar foto</span>
                   </button>
                   <button
-                    id="trigger-analysis-btn"
+                    id="retake-camera-btn"
                     type="button"
-                    disabled={isAnalyzing}
-                    onClick={() => runAnalysis()}
-                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
+                    onClick={() => {
+                      if (cameraInputRef.current) cameraInputRef.current.value = '';
+                      cameraInputRef.current?.click();
+                    }}
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-medium text-gray-700 transition-colors cursor-pointer shadow-2xs"
                   >
-                    <RefreshCw className={`w-3.5 h-3.5 ${isAnalyzing ? 'animate-spin' : ''}`} />
-                    <span>Re-analizar con IA</span>
+                    <Camera className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Tomar otra</span>
                   </button>
+                  {errorMsg && (
+                    <button
+                      id="retry-analysis-btn"
+                      type="button"
+                      disabled={isAnalyzing}
+                      onClick={() => runAnalysis()}
+                      className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-xs font-bold text-white transition-colors shadow-2xs cursor-pointer"
+                    >
+                      <RefreshCw className={`w-3.5 h-3.5 ${isAnalyzing ? 'animate-spin' : ''}`} />
+                      <span>Reintentar</span>
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (
