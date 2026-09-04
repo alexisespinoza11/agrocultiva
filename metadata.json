@@ -1,0 +1,6 @@
+{
+  "name": "Agrocultiva",
+  "description": "Diagnóstico inteligente de plagas por imagen, precios de mercado en tiempo real y gestión de pedidos agrícolas para Fresa, Aguaymanto, Papa y Cebolla.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
