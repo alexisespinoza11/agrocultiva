@@ -412,4 +412,9 @@ async function startServer() {
   });
 }
 
-startServer();
+// Only start the server if not running in a serverless environment (Netlify/AWS Lambda)
+if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  startServer();
+}
+
+export { app };
