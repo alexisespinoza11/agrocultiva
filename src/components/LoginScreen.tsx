@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  Sprout, 
   ShieldCheck, 
   Mail, 
   Lock, 
@@ -137,8 +136,8 @@ export const LoginScreen: React.FC = () => {
       {/* Barra superior de presentación */}
       <header className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-            <Sprout className="w-6 h-6 text-white" />
+          <div className="w-11 h-11 bg-white/10 backdrop-blur-md rounded-xl p-1.5 flex items-center justify-center shadow-lg border border-white/10">
+            <img src="/logo.png" alt="AgroCultiva Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-1.5">
@@ -163,8 +162,8 @@ export const LoginScreen: React.FC = () => {
             
             {/* Header de la tarjeta */}
             <div className="text-center space-y-1 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-emerald-600/30">
-                <Sprout className="w-7 h-7" />
+              <div className="w-16 h-16 rounded-2xl bg-emerald-50/80 p-2 flex items-center justify-center mx-auto mb-3 shadow-md border border-emerald-100">
+                <img src="/logo.png" alt="AgroCultiva" className="w-full h-full object-contain" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">
                 {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}

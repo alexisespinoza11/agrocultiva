@@ -7,7 +7,7 @@ import { LoginScreen } from './components/LoginScreen';
 import { AuthModal } from './components/AuthModal';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AllowedCrop, GeneratedOrder } from './types';
-import { ShieldCheck, Sprout, Building2, MapPin, Loader2 } from 'lucide-react';
+import { ShieldCheck, Building2, MapPin, Loader2 } from 'lucide-react';
 
 export default function App() {
   return (
@@ -29,8 +29,8 @@ function AppContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-linear-to-b from-emerald-950 via-emerald-900 to-gray-950 flex flex-col items-center justify-center p-4 text-white">
-        <div className="w-16 h-16 bg-emerald-500/20 border border-emerald-400/30 rounded-2xl flex items-center justify-center mb-4 text-emerald-400 animate-pulse">
-          <Sprout className="w-9 h-9" />
+        <div className="w-20 h-20 bg-white/10 backdrop-blur-md border border-emerald-400/30 rounded-3xl p-3 flex items-center justify-center mb-4 animate-pulse shadow-xl shadow-emerald-500/10">
+          <img src="/logo.png" alt="AgroCultiva" className="w-full h-full object-contain" />
         </div>
         <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
           <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
@@ -112,8 +112,8 @@ function AppContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xs">
-                <Sprout className="w-4 h-4 text-emerald-100" />
+              <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center p-1 border border-emerald-100">
+                <img src="/logo.png" alt="AgroCultiva" className="w-full h-full object-contain" />
               </div>
               <span className="font-bold text-gray-800 text-sm">Agrocultiva</span>
               <span className="text-gray-300">|</span>

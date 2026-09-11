@@ -10,7 +10,6 @@ import {
   AlertCircle, 
   Loader2, 
   ArrowRight,
-  Sprout,
   ShieldCheck,
   UserPlus,
   LogIn
@@ -166,8 +165,8 @@ export const AuthModal: React.FC = () => {
         <div className="bg-linear-to-r from-emerald-600 to-teal-700 px-6 py-5 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                <Sprout className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md p-1.5 flex items-center justify-center border border-white/10">
+                <img src="/logo.png" alt="AgroCultiva" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-lg leading-tight">AgroCultiva</h3>

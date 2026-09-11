@@ -672,8 +672,8 @@ Agrocultiva - Sistema Fitosanitario`;
           ) : (
             // Placeholder empty state
             <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm text-center space-y-3 min-h-[380px] flex flex-col items-center justify-center">
-              <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-400">
-                <Leaf className="w-7 h-7" />
+              <div className="w-16 h-16 rounded-2xl bg-emerald-50/80 border border-emerald-100 p-2.5 flex items-center justify-center shadow-xs">
+                <img src="/logo.png" alt="AgroCultiva" className="w-full h-full object-contain" />
               </div>
               <h3 className="text-base font-bold text-gray-800">
                 Esperando Fotografía

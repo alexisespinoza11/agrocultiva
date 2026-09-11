@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScanEye, TrendingUp, ShoppingCart, Sprout, LogIn, UserPlus, LogOut, User } from 'lucide-react';
+import { ScanEye, TrendingUp, ShoppingCart, LogIn, UserPlus, LogOut, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export type ActiveTab = 'detection' | 'prices' | 'orders';
@@ -29,8 +29,8 @@ export const Navigation: React.FC<NavigationProps> = ({
               onClick={() => setActiveTab('detection')}
               className="flex items-center gap-3 cursor-pointer select-none"
             >
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-xs">
-                <Sprout className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-50/80 p-1 flex items-center justify-center border border-emerald-100 shadow-xs">
+                <img src="/logo.png" alt="AgroCultiva Logo" className="w-full h-full object-contain" />
               </div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight text-gray-900">
