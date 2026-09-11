@@ -5,8 +5,6 @@ import {
   Mail, 
   Lock, 
   User, 
-  Briefcase, 
-  Phone, 
   LogIn, 
   UserPlus, 
   CheckCircle2, 
@@ -17,7 +15,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { UserRole } from '../types';
 
 export const LoginScreen: React.FC = () => {
   const { setDemoSession } = useAuth();
@@ -27,8 +24,6 @@ export const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [role, setRole] = useState<UserRole>('Agricultor Productor');
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -111,8 +106,7 @@ export const LoginScreen: React.FC = () => {
           options: {
             data: {
               full_name: fullName.trim(),
-              role: role,
-              phone: phone.trim(),
+              role: 'Agricultor Productor',
             },
           },
         });
@@ -125,7 +119,7 @@ export const LoginScreen: React.FC = () => {
           // Si Supabase creó el usuario pero pide confirmación, iniciamos sesión directamente para la prueba
           setSuccessMsg('¡Cuenta registrada exitosamente! Ingresando...');
           setTimeout(() => {
-            setDemoSession(cleanEmail, fullName.trim(), role, phone.trim());
+            setDemoSession(cleanEmail, fullName.trim(), 'Agricultor Productor');
           }, 700);
         }
       }
@@ -237,60 +231,22 @@ export const LoginScreen: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 
                 {mode === 'register' && (
-                  <>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                        Nombre Completo o Razón Social <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                        <input
-                          type="text"
-                          required
-                          placeholder="ej. Alexis Espinoza / Fundo San José"
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all text-gray-900"
-                        />
-                      </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 mb-1.5">
+                      Nombre Completo o Razón Social <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="ej. Alexis Espinoza / Fundo San José"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="w-full pl-10 pr-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all text-gray-900"
+                      />
                     </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Rol en la Cadena
-                        </label>
-                        <div className="relative">
-                          <Briefcase className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                          <select
-                            value={role}
-                            onChange={(e) => setRole(e.target.value as UserRole)}
-                            className="w-full pl-9 pr-2 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all text-gray-900 cursor-pointer"
-                          >
-                            <option value="Agricultor Productor">Agricultor Productor</option>
-                            <option value="Comerciante Acopiador">Comerciante Acopiador</option>
-                            <option value="Comprador Mayorista">Comprador Mayorista</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                          Teléfono / WhatsApp
-                        </label>
-                        <div className="relative">
-                          <Phone className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                          <input
-                            type="tel"
-                            placeholder="ej. 976123456"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all text-gray-900"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  </div>
                 )}
 
                 <div>
