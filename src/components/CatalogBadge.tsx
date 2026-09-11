@@ -19,7 +19,7 @@ export const CatalogBadge: React.FC<CatalogBadgeProps> = ({ onSelectCrop }) => {
       >
         <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-600" />
         <span className="font-semibold not-italic">Catálogo:</span>
-        <span className="hidden lg:inline">Solo Fresa, Aguaymanto, Papa, Cebolla</span>
+        <span className="hidden lg:inline">Solo Fresa, Aguaymanto, Papa, Cebolla China</span>
         <span className="lg:hidden">4 Cultivos</span>
         <Info className="w-3.5 h-3.5 text-gray-400 shrink-0 ml-0.5" />
       </div>

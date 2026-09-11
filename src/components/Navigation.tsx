@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScanEye, TrendingUp, ShoppingCart, Sprout, LogIn, UserPlus, LogOut, User } from 'lucide-react';
-import { CatalogBadge } from './CatalogBadge';
 import { useAuth } from '../context/AuthContext';
 
 export type ActiveTab = 'detection' | 'prices' | 'orders';
@@ -16,7 +15,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   setActiveTab,
   orderCount = 0,
 }) => {
-  const { user, profile, openAuthModal, signOut } = useAuth();
+  const { user, profile, isGuest, requireLogin, openAuthModal, signOut } = useAuth();
   return (
     <>
       {/* Desktop & Tablet Top Header */}
@@ -90,11 +89,8 @@ export const Navigation: React.FC<NavigationProps> = ({
               </button>
             </nav>
 
-            {/* Header Right: Catalog Badge & Supabase Auth Actions */}
+            {/* Header Right: Supabase Auth Actions */}
             <div className="flex items-center gap-2.5">
-              <div className="hidden xl:flex items-center">
-                <CatalogBadge />
-              </div>
 
               {/* Botones de Autenticación Supabase */}
               {user ? (
@@ -125,7 +121,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     id="btn-nav-login"
-                    onClick={() => openAuthModal('login')}
+                    onClick={requireLogin}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-xl transition-all cursor-pointer"
                   >
                     <LogIn className="w-3.5 h-3.5 text-emerald-600" />

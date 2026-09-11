@@ -126,28 +126,6 @@ export const PestDetection: React.FC<PestDetectionProps> = ({
     runAnalysis(sample.id, sample.imageUrl);
   };
 
-  const testNonCatalogCrop = () => {
-    setSelectedImage('https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80'); // Tomate / Manzana
-    setMimeType('image/jpeg');
-    setDiagnosis({
-      isAllowedCrop: false,
-      detectedCrop: 'Tomate / Hortaliza no catalogada',
-      scientificCropName: 'Solanum lycopersicum',
-      healthStatus: 'No Identificado',
-      diseaseOrPestCommonName: 'Cultivo fuera de catálogo',
-      diseaseOrPestScientificName: 'N/A',
-      severity: 'Bajo',
-      confidencePercentage: 99,
-      symptomsDescription: 'La muestra no coincide con la morfología vegetal de Fresa, Aguaymanto, Papa ni Cebolla.',
-      alertLevel: 'yellow',
-      organicControl: [],
-      chemicalControl: [],
-      preventionAndCulturalTips: [],
-      rejectionReason: AGRONOMIC_REJECTED_MESSAGE,
-      timestamp: new Date().toISOString()
-    });
-  };
-
   const copyDiagnosisText = () => {
     if (!diagnosis) return;
     const text = `DIAGNÓSTICO FITOSANITARIO - AGROCULTIVA
@@ -184,20 +162,8 @@ Agrocultiva - Sistema Fitosanitario`;
               Detección de Plagas y Enfermedades Agrícolas
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1 max-w-2xl leading-relaxed">
-              Fotografía hojas, tallos o frutos de <strong className="text-gray-800 font-semibold">Fresa, Aguaymanto, Papa o Cebolla</strong>. La IA identificará el agente patógeno, el nivel de severidad y el plan de control agronómico orgánico y químico.
+              Fotografía hojas, tallos o frutos de <strong className="text-gray-800 font-semibold">Fresa, Aguaymanto, Papa o Cebolla China</strong>. La IA identificará el agente patógeno, el nivel de severidad y el plan de control agronómico orgánico y químico.
             </p>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              id="test-rejected-crop-btn"
-              type="button"
-              onClick={testNonCatalogCrop}
-              className="text-xs px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-600 transition-colors cursor-pointer"
-              title="Probar qué sucede si se sube un cultivo ajeno a los 4 permitidos"
-            >
-              Probar Muestra Externa (Rechazo)
-            </button>
           </div>
         </div>
 

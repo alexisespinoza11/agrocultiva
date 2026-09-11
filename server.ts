@@ -29,7 +29,7 @@ function getGeminiClient(): GoogleGenAI | null {
 }
 
 // Allowed catalogue strictly 4 crops
-const ALLOWED_CROPS = ['Fresa', 'Aguaymanto', 'Papa', 'Cebolla'] as const;
+const ALLOWED_CROPS = ['Fresa', 'Aguaymanto', 'Papa', 'Cebolla China'] as const;
 
 // Helper agronomic fallback database for offline / error resilience
 const AGRONOMIC_KNOWLEDGE: Record<string, {
@@ -72,13 +72,13 @@ const AGRONOMIC_KNOWLEDGE: Record<string, {
     ]
   },
   'sample-cebolla-mildiu': {
-    crop: 'Cebolla',
-    scientificCrop: 'Allium cepa',
-    commonDisease: 'Mildiu Velloso de la Cebolla',
+    crop: 'Cebolla China',
+    scientificCrop: 'Allium fistulosum',
+    commonDisease: 'Mildiu Velloso de la Cebolla China',
     scientificDisease: 'Peronospora destructor',
     severity: 'Moderado',
     alertLevel: 'orange',
-    symptoms: 'Manchas alargadas cilíndricas de tonalidad verde pálida a amarillenta en hojas, cubiertas por un fieltro aterciopelado violáceo-grisáceo.',
+    symptoms: 'Manchas alargadas cilíndricas de tonalidad verde pálida a amarillenta en hojas tubulares, cubiertas por un fieltro aterciopelado violáceo-grisáceo.',
     confidence: 92,
     organicControl: [
       'Aplicaciones foliares de Oxicloruro de Cobre al 0.3% al amanecer.',
@@ -87,11 +87,11 @@ const AGRONOMIC_KNOWLEDGE: Record<string, {
     ],
     chemicalControl: [
       'Tratamiento curativo temprano con Metalaxil o Azoxistrobina + Difenoconazol en dosis de etiqueta.',
-      'Emplear adherente agrícola no iónico debido a la cutícula cerosa de las hojas de cebolla.'
+      'Emplear adherente agrícola no iónico debido a la cutícula cerosa de las hojas tubulares de cebolla china.'
     ],
     preventiveTips: [
       'Orientar los surcos a favor del viento para acelerar el secado foliar.',
-      'Manejar densidades de plantación adecuadas que faciliten la circulación de aire.',
+      'Manejar densidades de siembra adecuadas que faciliten la circulación de aire en los atados.',
       'Eliminar cebollines silvestres o restos de cosechas anteriores.'
     ]
   },
@@ -228,17 +228,17 @@ La aplicación Agrocultiva ÚNICAMENTE opera y admite cuatro (4) cultivos espec�
 1. Fresa (Fragaria × ananassa)
 2. Aguaymanto (Physalis peruviana)
 3. Papa (Solanum tuberosum)
-4. Cebolla (Allium cepa)
+4. Cebolla China (Allium fistulosum)
 
 PASO 1: Identifica qué cultivo u objeto aparece en la imagen.
 Si la imagen NO pertenece claramente a uno de estos 4 cultivos (por ejemplo, si es tomate, maíz, palta, lechuga, un animal, una persona, maquinaria, u otro cultivo no permitido):
 - Establece "isAllowedCrop": false
-- Explica cordialmente en "rejectionReason" que Agrocultiva está exclusivamente especializado en Fresa, Aguaymanto, Papa y Cebolla, e indica qué cultivo u objeto parece ser la imagen.
+- Explica cordialmente en "rejectionReason" que Agrocultiva está exclusivamente especializado en Fresa, Aguaymanto, Papa y Cebolla China, e indica qué cultivo u objeto parece ser la imagen.
 - Llena los otros campos con valores neutros vacíos.
 
-PASO 2: Si SÍ pertenece a Fresa, Aguaymanto, Papa o Cebolla:
+PASO 2: Si SÍ pertenece a Fresa, Aguaymanto, Papa o Cebolla China:
 - Establece "isAllowedCrop": true
-- "detectedCrop": "Fresa" | "Aguaymanto" | "Papa" | "Cebolla"
+- "detectedCrop": "Fresa" | "Aguaymanto" | "Papa" | "Cebolla China"
 - "scientificCropName": el nombre científico del cultivo
 - "healthStatus": "Enfermo/Plaga" o "Saludable"
 - "diseaseOrPestCommonName": nombre común de la plaga o enfermedad (ej. Rancha / Tizón tardío, Botrytis, Mildiu, Arañita roja, Trips, Gusano del fruto, o "Cultivo Sano")

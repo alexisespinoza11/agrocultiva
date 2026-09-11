@@ -118,72 +118,73 @@ export const INITIAL_MARKET_PRICES: MarketPriceRecord[] = [
     source: 'DRA Junín'
   },
 
-  // CEBOLLA - CAJAMARCA
+  // CEBOLLA CHINA - CAJAMARCA
   {
     id: 'ceb-caj-1',
-    crop: 'Cebolla',
-    variety: 'Cebolla Roja Regional',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China Criolla (Atado fresco)',
     region: 'Cajamarca',
     marketName: 'Mercado Central de Cajamarca',
-    pricePerKg: 2.40,
-    pricePerSaco: 110.00,
+    pricePerKg: 2.80,
+    pricePerJaba: 42.00,
     trend: 'up',
     trendPercent: 5.1,
     lastUpdated: TODAY_DATE_STR,
-    source: 'DRAC Cajamarca'
+    source: 'DRAC Cajamarca',
+    note: 'Tallos frescos de valles interandinos.'
   },
   {
     id: 'ceb-caj-2',
-    crop: 'Cebolla',
-    variety: 'Cebolla Roja en Chacra',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China en Chacra',
     region: 'Cajamarca',
     marketName: 'Venta en Chacra (Valle Llacanora / Jesús)',
-    pricePerKg: 1.70,
-    pricePerSaco: 80.00,
+    pricePerKg: 2.00,
+    pricePerJaba: 30.00,
     trend: 'stable',
     trendPercent: 0.0,
     lastUpdated: TODAY_DATE_STR,
-    source: 'Asoc. Productores Jesús'
+    source: 'Asoc. Horticultores Jesús'
   },
 
-  // CEBOLLA - LIMA CAPITAL
+  // CEBOLLA CHINA - LIMA CAPITAL
   {
     id: 'ceb-lim-1',
-    crop: 'Cebolla',
-    variety: 'Cebolla Roja Arequipeña',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China Verde Extra',
     region: 'Lima Capital',
     marketName: 'Gran Mercado Mayorista de Lima (Santa Anita - GMML)',
-    pricePerKg: 2.10,
-    pricePerSaco: 102.00,
+    pricePerKg: 2.50,
+    pricePerJaba: 38.00,
     trend: 'down',
     trendPercent: -4.3,
     lastUpdated: TODAY_DATE_STR,
     source: 'MIDAGRI - SISAP GMML',
-    note: 'Mayor abastecimiento procedente del sur.'
+    note: 'Ingreso matutino de atados frescos del valle Chillón y Lurín.'
   },
   {
     id: 'ceb-lim-2',
-    crop: 'Cebolla',
-    variety: 'Cebolla Blanca / Dulce',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China Calidad Supermercado',
     region: 'Lima Capital',
     marketName: 'C.C. Minka (Callao)',
-    pricePerKg: 3.20,
-    pricePerSaco: 150.00,
+    pricePerKg: 3.50,
+    pricePerJaba: 52.00,
     trend: 'stable',
     trendPercent: 0.0,
     lastUpdated: TODAY_DATE_STR,
     source: 'Sondeo Minka'
   },
 
-  // CEBOLLA - OTRAS REGIONES
+  // CEBOLLA CHINA - OTRAS REGIONES
   {
     id: 'ceb-otr-1',
-    crop: 'Cebolla',
-    variety: 'Cebolla Roja Arequipa',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China Valle Verde',
     region: 'Otras Regiones',
     marketName: 'Mercado Mayorista Río Seco (Arequipa)',
-    pricePerKg: 1.65,
-    pricePerSaco: 80.00,
+    pricePerKg: 2.20,
+    pricePerJaba: 35.00,
     trend: 'down',
     trendPercent: -3.0,
     lastUpdated: TODAY_DATE_STR,
@@ -191,12 +192,12 @@ export const INITIAL_MARKET_PRICES: MarketPriceRecord[] = [
   },
   {
     id: 'ceb-otr-2',
-    crop: 'Cebolla',
-    variety: 'Cebolla Roja del Norte',
+    crop: 'Cebolla China',
+    variety: 'Cebolla China del Norte',
     region: 'Otras Regiones',
     marketName: 'Mercado Moshoqueque (Chiclayo - Lambayeque)',
-    pricePerKg: 2.00,
-    pricePerSaco: 98.00,
+    pricePerKg: 2.60,
+    pricePerJaba: 40.00,
     trend: 'up',
     trendPercent: 2.5,
     lastUpdated: TODAY_DATE_STR,
@@ -207,7 +208,7 @@ export const INITIAL_MARKET_PRICES: MarketPriceRecord[] = [
   {
     id: 'fresa-caj-1',
     crop: 'Fresa',
-    variety: 'Fresa San Andreas / Aromas',
+    variety: 'Fresa San Andreas / Sabrina',
     region: 'Cajamarca',
     marketName: 'Mercado San Antonio (Cajamarca)',
     pricePerKg: 6.50,
@@ -250,7 +251,7 @@ export const INITIAL_MARKET_PRICES: MarketPriceRecord[] = [
   {
     id: 'fresa-lim-2',
     crop: 'Fresa',
-    variety: 'Fresa Camarosa / Aromas',
+    variety: 'Fresa Camarosa / Sabrina',
     region: 'Lima Capital',
     marketName: 'C.C. Minka (Callao - Sector Frutas)',
     pricePerKg: 6.20,
@@ -360,17 +361,16 @@ export const CROP_VARIETIES: Record<AllowedCrop, string[]> = {
     'Papa Perricholi',
     'Papa Huayro / Peruanita'
   ],
-  Cebolla: [
-    'Cebolla Roja Arequipeña',
-    'Cebolla Roja del Norte',
-    'Cebolla Blanca / Cristalina',
-    'Cebolla Amarilla Dulce'
+  'Cebolla China': [
+    'Cebolla China Criolla (Atado)',
+    'Cebolla China Verde Extra',
+    'Cebolla China Tallo Blanco',
+    'Cebolla China Calidad Supermercado'
   ],
   Fresa: [
     'Fresa San Andreas',
     'Fresa Camarosa',
-    'Fresa Aromas',
-    'Fresa Albion'
+    'Fresa Sabrina'
   ],
   Aguaymanto: [
     'Aguaymanto Ecotipo Cajamarca (con capacho)',
@@ -392,12 +392,12 @@ export const SAMPLE_PEST_CASES: SamplePestCase[] = [
   },
   {
     id: 'sample-cebolla-mildiu',
-    crop: 'Cebolla',
-    title: 'Mildiu Velloso en Cebolla',
+    crop: 'Cebolla China',
+    title: 'Mildiu Velloso en Cebolla China',
     pestName: 'Peronospora destructor',
     severity: 'Moderado',
-    imageUrl: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?auto=format&fit=crop&w=800&q=80',
-    description: 'Lesiones alargadas de color pálido en las hojas con presencia de pelusilla violácea-grisácea en ambiente húmedo.'
+    imageUrl: '/cebolla_china_sample.png',
+    description: 'Lesiones alargadas de color pálido y secado apical en las hojas tubulares de cebolla china con pelusilla violácea-grisácea.'
   },
   {
     id: 'sample-fresa-botrytis',
@@ -420,4 +420,4 @@ export const SAMPLE_PEST_CASES: SamplePestCase[] = [
 ];
 
 export const AGRONOMIC_REJECTED_MESSAGE = 
-  '⚠️ MUESTRA NO ADMITIDA: Agrocultiva está 100% enfocado y estrictamente limitado al catálogo de 4 productos: Fresa, Aguaymanto, Papa y Cebolla. La imagen o consulta proporcionada no corresponde a ninguno de estos cultivos oficiales.';
+  '⚠️ MUESTRA NO ADMITIDA: Agrocultiva está 100% enfocado y estrictamente limitado al catálogo de 4 productos: Fresa, Aguaymanto, Papa y Cebolla China. La imagen o consulta proporcionada no corresponde a ninguno de estos cultivos oficiales.';

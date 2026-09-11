@@ -34,7 +34,7 @@ interface OrderManagementProps {
 
 // Número oficial de WhatsApp de AgroCultiva para recibir pedidos y consultas
 // (Incluye código de país 51 para Perú seguido del número)
-export const AGROCULTIVA_ADMIN_PHONE = '51976123456';
+export const AGROCULTIVA_ADMIN_PHONE = '51987511421';
 
 const STORAGE_KEY = 'agroscan_orders_v1';
 
@@ -46,7 +46,7 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
   const [form, setForm] = useState<OrderFormState>({
     crop: preselectedCrop || 'Papa',
     variety: preselectedVariety || CROP_VARIETIES['Papa'][0],
-    unit: 'Sacos',
+    unit: 'Jabas',
     quantity: 50,
     originLocation: 'Bambamarca',
     destinationLocation: '',
@@ -106,7 +106,7 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
       ...prev,
       crop,
       variety: varieties[0] || '',
-      unit: crop === 'Fresa' || crop === 'Aguaymanto' ? 'Jabas' : 'Sacos',
+      unit: prev.unit || 'Jabas',
     }));
   };
 
@@ -117,7 +117,7 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
         ...prev,
         crop: preselectedCrop,
         variety: preselectedVariety || CROP_VARIETIES[preselectedCrop][0],
-        unit: preselectedCrop === 'Fresa' || preselectedCrop === 'Aguaymanto' ? 'Jabas' : 'Sacos',
+        unit: prev.unit || 'Jabas',
       }));
     }
   }, [preselectedCrop, preselectedVariety]);
@@ -139,11 +139,8 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
       case 'Jabas':
         approxWeightKg = form.quantity * 15; // standard 15kg jaba
         break;
-      case 'Sacos':
-        approxWeightKg = form.quantity * 50; // standard 50kg sack
-        break;
-      case 'Toneladas':
-        approxWeightKg = form.quantity * 1000;
+      default:
+        approxWeightKg = form.quantity;
         break;
     }
 
@@ -170,9 +167,6 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
   const validateForm = () => {
     const errors: Record<string, string> = {};
     if (!form.contactName.trim()) errors.contactName = 'Ingrese el nombre de contacto.';
-    if (!form.contactPhone.trim() || form.contactPhone.trim().length < 7) {
-      errors.contactPhone = 'Ingrese un número de teléfono / WhatsApp válido (mínimo 7 dígitos).';
-    }
     if (!form.quantity || form.quantity <= 0) errors.quantity = 'La cantidad debe ser mayor a cero.';
     if (!form.originLocation.trim()) errors.originLocation = 'Indique la localidad de origen.';
     if (!form.destinationLocation.trim()) errors.destinationLocation = 'Indique la localidad de destino.';
@@ -338,7 +332,7 @@ _Generado automáticamente mediante Agrocultiva_`;
               
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-                  Variedad / Calidad:
+                  Variedad:
                 </label>
                 <select
                   id="order-variety-select"
@@ -366,8 +360,6 @@ _Generado automáticamente mediante Agrocultiva_`;
                 >
                   <option value="Kilogramos">Kilogramos (Kg)</option>
                   <option value="Jabas">Jabas (~15 Kg)</option>
-                  <option value="Sacos">Sacos (~50 Kg)</option>
-                  <option value="Toneladas">Toneladas (TM)</option>
                 </select>
               </div>
 
@@ -375,11 +367,8 @@ _Generado automáticamente mediante Agrocultiva_`;
 
             {/* Quantity */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center justify-between">
-                <span>Cantidad Solicitada:</span>
-                <span className="text-xs font-semibold text-emerald-700">
-                  Peso Total Estimado: ~{calculation.approxWeightKg.toLocaleString()} Kg
-                </span>
+              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">
+                Cantidad Solicitada:
               </label>
               <div className="relative">
                 <input
@@ -402,16 +391,10 @@ _Generado automáticamente mediante Agrocultiva_`;
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Origen:</span>
-                  </label>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[10px] border border-emerald-200/60">
-                    <Lock className="w-2.5 h-2.5 text-emerald-600" />
-                    Fijo
-                  </span>
-                </div>
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Origen:</span>
+                </label>
                 <div className="relative">
                   <input
                     id="order-origin-input"
@@ -426,9 +409,6 @@ _Generado automáticamente mediante Agrocultiva_`;
                     <span>Bloqueado</span>
                   </div>
                 </div>
-                <p className="text-[11px] text-gray-500 italic">
-                  Sede de acopio y despacho establecida permanentemente en Bambamarca.
-                </p>
                 {formErrors.originLocation && <p className="text-xs text-red-600">{formErrors.originLocation}</p>}
               </div>
 
@@ -445,18 +425,6 @@ _Generado automáticamente mediante Agrocultiva_`;
                   onChange={(e) => setForm({ ...form, destinationLocation: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
                 />
-                <div className="flex flex-wrap gap-1 pt-1">
-                  {['Lima - Santa Anita (GMML)', 'Callao - Minka', 'Trujillo - La Hermelinda'].map((preset) => (
-                    <button
-                      key={preset}
-                      type="button"
-                      onClick={() => setForm({ ...form, destinationLocation: preset })}
-                      className="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer"
-                    >
-                      {preset.split(' - ')[1]}
-                    </button>
-                  ))}
-                </div>
                 {formErrors.destinationLocation && <p className="text-xs text-red-600">{formErrors.destinationLocation}</p>}
               </div>
 
@@ -468,10 +436,10 @@ _Generado automáticamente mediante Agrocultiva_`;
                 Datos de Contacto del Responsable:
               </h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-semibold text-gray-600">Nombre Completo:</label>
+                  <label className="text-[11px] font-semibold text-gray-600">Nombre Completo del Solicitante:</label>
                   <input
                     id="order-contact-name-input"
                     type="text"
@@ -481,19 +449,6 @@ _Generado automáticamente mediante Agrocultiva_`;
                     className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                   />
                   {formErrors.contactName && <p className="text-xs text-red-600">{formErrors.contactName}</p>}
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-semibold text-gray-600">Teléfono / WhatsApp:</label>
-                  <input
-                    id="order-contact-phone-input"
-                    type="tel"
-                    placeholder="Ej. 976 123 456"
-                    value={form.contactPhone}
-                    onChange={(e) => setForm({ ...form, contactPhone: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
-                  />
-                  {formErrors.contactPhone && <p className="text-xs text-red-600">{formErrors.contactPhone}</p>}
                 </div>
 
                 <div className="space-y-1">

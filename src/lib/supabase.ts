@@ -4,8 +4,8 @@ import { GeneratedOrder, DiagnosisResult, AllowedCrop, OrderUnit } from '../type
 const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : (typeof process !== 'undefined' && process.env ? process.env : {}) as any;
 
 // Credentials are read from VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY env vars (see .env)
-const supabaseUrl = env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY as string;
+const supabaseUrl = env.VITE_SUPABASE_URL || 'https://wxyenmunawsqjqmsaqpq.supabase.co';
+const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4eWVubXVuYXdzcWpxbXNhcXBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNzQyNjEsImV4cCI6MjEwNDY1MDI2MX0.ndiXLSRw_-FODLpyLXCDVKD68wacfUDnJNmUvH4zejU';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 

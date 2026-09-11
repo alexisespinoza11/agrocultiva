@@ -51,13 +51,13 @@ const AGRONOMIC_KNOWLEDGE: Record<string, {
     ]
   },
   'sample-cebolla-mildiu': {
-    crop: 'Cebolla',
-    scientificCrop: 'Allium cepa',
-    commonDisease: 'Mildiu Velloso de la Cebolla',
+    crop: 'Cebolla China',
+    scientificCrop: 'Allium fistulosum',
+    commonDisease: 'Mildiu Velloso de la Cebolla China',
     scientificDisease: 'Peronospora destructor',
     severity: 'Moderado',
     alertLevel: 'orange',
-    symptoms: 'Manchas alargadas cilíndricas de tonalidad verde pálida a amarillenta en hojas, cubiertas por un fieltro aterciopelado violáceo-grisáceo.',
+    symptoms: 'Manchas alargadas cilíndricas de tonalidad verde pálida a amarillenta en hojas tubulares, cubiertas por un fieltro aterciopelado violáceo-grisáceo.',
     confidence: 92,
     organicControl: [
       'Aplicaciones foliares de Oxicloruro de Cobre al 0.3% al amanecer.',
@@ -66,11 +66,11 @@ const AGRONOMIC_KNOWLEDGE: Record<string, {
     ],
     chemicalControl: [
       'Tratamiento curativo temprano con Metalaxil o Azoxistrobina + Difenoconazol en dosis de etiqueta.',
-      'Emplear adherente agrícola no iónico debido a la cutícula cerosa de las hojas de cebolla.'
+      'Emplear adherente agrícola no iónico debido a la cutícula cerosa de las hojas tubulares de cebolla china.'
     ],
     preventiveTips: [
       'Orientar los surcos a favor del viento para acelerar el secado foliar.',
-      'Manejar densidades de plantación adecuadas que faciliten la circulación de aire.',
+      'Manejar densidades de siembra adecuadas que faciliten la circulación de aire en los atados.',
       'Eliminar cebollines silvestres o restos de cosechas anteriores.'
     ]
   },
@@ -109,33 +109,32 @@ const AGRONOMIC_KNOWLEDGE: Record<string, {
     symptoms: 'Perforaciones circulares en el cáliz o capacho externo, daño directo a la pulpa del fruto con galerías y presencia de excrementos oscuros.',
     confidence: 89,
     organicControl: [
-      'Aplicación biológica de Bacillus thuringiensis var. kurstaki (1.5 kg/ha) dirigido a larvas en primeros estadios.',
-      'Instalación de trampas de luz o con feromonas sexuales para captura de adultos polilla.',
-      'Liberación inundativa de avispitas parasitoides Trichogramma spp. en zonas productoras de Cajamarca.',
-      'Aspersión de extracto concentrado de Neem (Azadiractina) al 1%.'
+      'Trampas de luz negra o melaza para captura de adultos de Heliothis.',
+      'Aplicación de Bacillus thuringiensis var. kurstaki (1.5 kg/ha) dirigido a larvas en primeros estadios.',
+      'Liberación inundativa de Trichogramma pretiosum (parasitoide de huevos).'
     ],
     chemicalControl: [
-      'Insecticidas reguladores del crecimiento o espinosinas (Spinosad 120 SC a razón de 0.2 L/ha).',
-      'Clorantraniliprole (Rynaxypyr) en rotación con bajo impacto en polinizadores andinos.'
+      'Spinosad o Clorantraniliprol en dosis técnica aprobada con bajo impacto en polinizadores.',
+      'Evitar aplicaciones en horas de máxima floración y pecoreo de abejas.'
     ],
     preventiveTips: [
-      'Monitoreo semanal del 10% de plantas en floración y cuajado.',
-      'Cosechar oportunamente apenas el capacho alcance color paja dorado.',
-      'Destrucción de plantas hospederas de solanáceas silvestres en bordes de parcela.'
+      'Poda sanitaria de ramas bajas que toquen el suelo.',
+      'Monitoreo semanal del 10% de plantas registrando capachos dañados.',
+      'Cosecha oportuna antes de la sobremadurez del fruto.'
     ]
   },
   'sample-papa-sana': {
     crop: 'Papa',
     scientificCrop: 'Solanum tuberosum',
-    commonDisease: 'Cultivo Sano / Sin Plaga Detectada',
-    scientificDisease: 'Estado fisiológico óptimo',
+    commonDisease: 'Follaje Sano y Vigoroso',
+    scientificDisease: 'Ninguno (Planta Saludable)',
     severity: 'Saludable',
     alertLevel: 'green',
-    symptoms: 'Follaje vigoroso, láminas foliares completas de color verde uniforme sin clorosis ni pústulas miceliales. Desarrollo equilibrado.',
+    symptoms: 'Follaje erecto, color verde intenso y uniforme, sin manchas necróticas, clorosis ni deformaciones mecánicas o parasitarias.',
     confidence: 98,
     organicControl: [
-      'Mantener nutrición foliar con biol fermentado o humus líquido al 10%.',
-      'Monitoreo preventivo quincenal con cartillas de campo.'
+      'Mantener biofertilización foliar a base de biol enriquecido al 5%.',
+      'Monitoreo preventivo semanal en el envés de hojas basales.'
     ],
     chemicalControl: [
       'No se requiere aplicación curativa ni plaguicidas de síntesis en este estado.',
@@ -158,17 +157,17 @@ La aplicación Agrocultiva ÚNICAMENTE opera y admite cuatro (4) cultivos espec�
 1. Fresa (Fragaria × ananassa)
 2. Aguaymanto (Physalis peruviana)
 3. Papa (Solanum tuberosum)
-4. Cebolla (Allium cepa)
+4. Cebolla China (Allium fistulosum)
 
 PASO 1: Identifica qué cultivo u objeto aparece en la imagen.
 Si la imagen NO pertenece claramente a uno de estos 4 cultivos (por ejemplo, si es tomate, maíz, palta, lechuga, un animal, una persona, maquinaria, u otro cultivo no permitido):
 - Establece "isAllowedCrop": false
-- Explica cordialmente en "rejectionReason" que Agrocultiva está exclusivamente especializado en Fresa, Aguaymanto, Papa y Cebolla, e indica qué cultivo u objeto parece ser la imagen.
+- Explica cordialmente en "rejectionReason" que Agrocultiva está exclusivamente especializado en Fresa, Aguaymanto, Papa y Cebolla China, e indica qué cultivo u objeto parece ser la imagen.
 - Llena los otros campos con valores neutros vacíos.
 
-PASO 2: Si SÍ pertenece a Fresa, Aguaymanto, Papa o Cebolla:
+PASO 2: Si SÍ pertenece a Fresa, Aguaymanto, Papa o Cebolla China:
 - Establece "isAllowedCrop": true
-- "detectedCrop": "Fresa" | "Aguaymanto" | "Papa" | "Cebolla"
+- "detectedCrop": "Fresa" | "Aguaymanto" | "Papa" | "Cebolla China"
 - "scientificCropName": el nombre científico del cultivo
 - "healthStatus": "Enfermo/Plaga" o "Saludable"
 - "diseaseOrPestCommonName": nombre común de la plaga o enfermedad (ej. Rancha / Tizón tardío, Botrytis, Mildiu, Arañita roja, Trips, Gusano del fruto, o "Cultivo Sano")
@@ -193,7 +192,7 @@ Deno.serve(async (req: Request) => {
     return new Response(JSON.stringify({
       status: 'ok',
       service: 'AgroCultiva Supabase Edge Backend',
-      catalog: ['Fresa', 'Aguaymanto', 'Papa', 'Cebolla'],
+      catalog: ['Fresa', 'Aguaymanto', 'Papa', 'Cebolla China'],
       timestamp: new Date().toISOString()
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }

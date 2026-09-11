@@ -1,4 +1,4 @@
-export type AllowedCrop = 'Fresa' | 'Aguaymanto' | 'Papa' | 'Cebolla';
+export type AllowedCrop = 'Fresa' | 'Aguaymanto' | 'Papa' | 'Cebolla China';
 
 export const ALLOWED_CROPS: { id: AllowedCrop; name: string; scientific: string; icon: string; category: string; description: string }[] = [
   {
@@ -26,12 +26,12 @@ export const ALLOWED_CROPS: { id: AllowedCrop; name: string; scientific: string;
     description: 'Base de la seguridad alimentaria con variedades nativas y comerciales.'
   },
   {
-    id: 'Cebolla',
-    name: 'Cebolla',
-    scientific: 'Allium cepa',
+    id: 'Cebolla China',
+    name: 'Cebolla China',
+    scientific: 'Allium fistulosum',
     icon: '🧅',
-    category: 'Hortalizas de bulbo',
-    description: 'Hortaliza fundamental con fuerte dinámica en Arequipa y el norte peruano.'
+    category: 'Hortalizas de tallo y hoja',
+    description: 'Hortaliza aromática de tallo verde de alta rotación comercial en costa y valles interandinos.'
   }
 ];
 
@@ -84,7 +84,7 @@ export interface UserProfile {
   phone?: string;
 }
 
-export type OrderUnit = 'Kilogramos' | 'Jabas' | 'Sacos' | 'Toneladas';
+export type OrderUnit = 'Kilogramos' | 'Jabas';
 
 export interface OrderFormState {
   crop: AllowedCrop;

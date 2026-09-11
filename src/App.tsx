@@ -3,11 +3,11 @@ import { Navigation, ActiveTab } from './components/Navigation';
 import { PestDetection } from './components/PestDetection';
 import { MarketPrices } from './components/MarketPrices';
 import { OrderManagement } from './components/OrderManagement';
-import { CatalogBadge } from './components/CatalogBadge';
+import { LoginScreen } from './components/LoginScreen';
 import { AuthModal } from './components/AuthModal';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { AllowedCrop, GeneratedOrder } from './types';
-import { ShieldCheck, Sprout, Building2, MapPin } from 'lucide-react';
+import { ShieldCheck, Sprout, Building2, MapPin, Loader2 } from 'lucide-react';
 
 export default function App() {
   return (
@@ -18,11 +18,32 @@ export default function App() {
 }
 
 function AppContent() {
+  const { user, isGuest, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<ActiveTab>('detection');
   const [selectedCropForMarket, setSelectedCropForMarket] = useState<AllowedCrop | 'Todos'>('Todos');
   const [selectedCropForOrder, setSelectedCropForOrder] = useState<AllowedCrop>('Papa');
   const [selectedVarietyForOrder, setSelectedVarietyForOrder] = useState<string | undefined>(undefined);
   const [orderCount, setOrderCount] = useState<number>(0);
+
+  // Pantalla de carga mientras se verifica la sesión en Supabase
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-linear-to-b from-emerald-950 via-emerald-900 to-gray-950 flex flex-col items-center justify-center p-4 text-white">
+        <div className="w-16 h-16 bg-emerald-500/20 border border-emerald-400/30 rounded-2xl flex items-center justify-center mb-4 text-emerald-400 animate-pulse">
+          <Sprout className="w-9 h-9" />
+        </div>
+        <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
+          <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+          <span>Iniciando AgroCultiva...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Si no está autenticado y no eligió continuar como invitado, mostrar la Ventana Principal de Login
+  if (!user && !isGuest) {
+    return <LoginScreen />;
+  }
 
   // Transition handlers between windows
   const handleGoToMarket = (crop: AllowedCrop) => {
@@ -54,15 +75,6 @@ function AppContent() {
 
       {/* Main Content View Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
-        
-        {/* Mobile Catalog Banner (visible on mobile only since desktop has it in header) */}
-        <div className="md:hidden flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-xs">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="font-semibold text-emerald-900">Catálogo Estricto:</span>
-            <span className="text-emerald-800">🍓 Fresa • 🟡 Aguaymanto • 🥔 Papa • 🧅 Cebolla</span>
-          </div>
-        </div>
 
         {/* Dynamic Window Switching */}
         {activeTab === 'detection' && (
@@ -105,7 +117,7 @@ function AppContent() {
               </div>
               <span className="font-bold text-gray-800 text-sm">Agrocultiva</span>
               <span className="text-gray-300">|</span>
-              <span className="text-gray-500">Especializado en Fresa, Aguaymanto, Papa y Cebolla</span>
+              <span className="text-gray-500">Especializado en Fresa, Aguaymanto, Papa y Cebolla China</span>
             </div>
 
             <div className="flex items-center gap-4 text-gray-500">

@@ -8,6 +8,10 @@ interface AuthContextType {
   session: Session | null;
   profile: UserProfile | null;
   loading: boolean;
+  isGuest: boolean;
+  continueAsGuest: () => void;
+  requireLogin: () => void;
+  setDemoSession: (email: string, fullName: string, role: UserRole, phone?: string) => void;
   isAuthModalOpen: boolean;
   authModalMode: 'login' | 'register';
   openAuthModal: (mode?: 'login' | 'register') => void;
@@ -22,6 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('login');
 
@@ -54,6 +59,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       setProfile(buildProfile(session?.user ?? null));
+      if (session?.user) {
+        setIsGuest(false);
+      }
       setLoading(false);
     });
 
@@ -61,6 +69,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       subscription.unsubscribe();
     };
   }, []);
+
+  const continueAsGuest = () => {
+    setIsGuest(true);
+  };
+
+  const requireLogin = () => {
+    setIsGuest(false);
+  };
+
+  const setDemoSession = (email: string, fullName: string, role: UserRole, phone = '') => {
+    const demoUser: any = {
+      id: 'demo-user-' + Date.now(),
+      email,
+      user_metadata: {
+        full_name: fullName,
+        role,
+        phone,
+      },
+    };
+    setUser(demoUser);
+    setProfile({
+      id: demoUser.id,
+      email,
+      fullName,
+      role,
+      phone,
+    });
+    setIsGuest(false);
+  };
 
   const openAuthModal = (mode: 'login' | 'register' = 'login') => {
     setAuthModalMode(mode);
@@ -73,6 +110,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     try {
+      setIsGuest(false);
+      setUser(null);
+      setSession(null);
+      setProfile(null);
       await supabase.auth.signOut();
     } catch (err) {
       console.error('Error signing out:', err);
@@ -86,6 +127,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         session,
         profile,
         loading,
+        isGuest,
+        continueAsGuest,
+        requireLogin,
+        setDemoSession,
         isAuthModalOpen,
         authModalMode,
         openAuthModal,
@@ -105,3 +150,4 @@ export const useAuth = () => {
   }
   return context;
 };
+
