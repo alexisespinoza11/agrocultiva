@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScanEye, TrendingUp, ShoppingCart, Sprout } from 'lucide-react';
+import { ScanEye, TrendingUp, ShoppingCart, Sprout, LogIn, UserPlus, LogOut, User } from 'lucide-react';
 import { CatalogBadge } from './CatalogBadge';
+import { useAuth } from '../context/AuthContext';
 
 export type ActiveTab = 'detection' | 'prices' | 'orders';
 
@@ -15,6 +16,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   setActiveTab,
   orderCount = 0,
 }) => {
+  const { user, profile, openAuthModal, signOut } = useAuth();
   return (
     <>
       {/* Desktop & Tablet Top Header */}
@@ -88,9 +90,58 @@ export const Navigation: React.FC<NavigationProps> = ({
               </button>
             </nav>
 
-            {/* Catalog restriction badge in header */}
-            <div className="hidden md:flex items-center">
-              <CatalogBadge />
+            {/* Header Right: Catalog Badge & Supabase Auth Actions */}
+            <div className="flex items-center gap-2.5">
+              <div className="hidden xl:flex items-center">
+                <CatalogBadge />
+              </div>
+
+              {/* Botones de Autenticación Supabase */}
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-xl">
+                    <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                      {profile?.fullName ? profile.fullName.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div className="hidden sm:block text-left">
+                      <p className="text-xs font-bold text-emerald-950 leading-tight max-w-[130px] truncate">
+                        {profile?.fullName || user.email}
+                      </p>
+                      <p className="text-[10px] text-emerald-700 font-medium leading-none max-w-[130px] truncate">
+                        {profile?.role || 'Productor'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => signOut()}
+                    title="Cerrar sesión"
+                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <button
+                    id="btn-nav-login"
+                    onClick={() => openAuthModal('login')}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-xl transition-all cursor-pointer"
+                  >
+                    <LogIn className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Iniciar Sesión</span>
+                  </button>
+
+                  <button
+                    id="btn-nav-register"
+                    onClick={() => openAuthModal('register')}
+                    className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xs hover:shadow-md rounded-xl transition-all cursor-pointer"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    <span>Registrarse</span>
+                  </button>
+                </div>
+              )}
             </div>
 
           </div>

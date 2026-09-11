@@ -23,6 +23,8 @@ import {
 import { AllowedCrop, OrderUnit, OrderFormState, GeneratedOrder } from '../types';
 import { CROP_VARIETIES, INITIAL_MARKET_PRICES } from '../data/agriculturalData';
 import { CropPillSelector } from './CropPillSelector';
+import { getOrdersFromSupabase, createOrderInSupabase, supabase } from '../lib/supabase';
+import { useAuth } from '../context/AuthContext';
 
 interface OrderManagementProps {
   preselectedCrop?: AllowedCrop;
@@ -57,16 +59,43 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
   const [savedOrders, setSavedOrders] = useState<GeneratedOrder[]>([]);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Load saved orders from localStorage
+  const { user, profile } = useAuth();
+
+  // Auto-completar datos si el usuario ha iniciado sesión
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setSavedOrders(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.warn('Could not load orders from localStorage', e);
+    if (profile) {
+      setForm(prev => ({
+        ...prev,
+        contactName: prev.contactName || profile.fullName || '',
+        contactPhone: prev.contactPhone || profile.phone || '',
+        contactRole: prev.contactRole || profile.role,
+      }));
     }
+  }, [profile]);
+
+  // Load saved orders from Supabase (with localStorage fallback)
+  useEffect(() => {
+    async function loadOrders() {
+      try {
+        const cloudOrders = await getOrdersFromSupabase();
+        if (cloudOrders && cloudOrders.length > 0) {
+          setSavedOrders(cloudOrders);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudOrders));
+          return;
+        }
+      } catch (err) {
+        console.warn('Could not load orders from Supabase, trying localStorage', err);
+      }
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          setSavedOrders(JSON.parse(stored));
+        }
+      } catch (e) {
+        console.warn('Could not load orders from localStorage', e);
+      }
+    }
+    loadOrders();
   }, []);
 
   // Update variety when crop changes
@@ -152,7 +181,7 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmitOrder = (e: React.FormEvent) => {
+  const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -185,9 +214,16 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
       notes: form.notes,
     };
 
-    const updated = [newOrder, ...savedOrders].slice(0, 10);
+    let finalOrder = newOrder;
+    try {
+      finalOrder = await createOrderInSupabase(newOrder);
+    } catch (dbErr) {
+      console.warn('Could not save to Supabase, continuing with local state', dbErr);
+    }
+
+    const updated = [finalOrder, ...savedOrders.filter(o => o.id !== finalOrder.id)].slice(0, 15);
     setSavedOrders(updated);
-    setActiveTicket(newOrder);
+    setActiveTicket(finalOrder);
 
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
@@ -196,17 +232,18 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
     }
 
     if (onOrderCreated) {
-      onOrderCreated(newOrder);
+      onOrderCreated(finalOrder);
     }
   };
 
-  const deleteOrder = (id: string) => {
+  const deleteOrder = async (id: string) => {
     const updated = savedOrders.filter(o => o.id !== id);
     setSavedOrders(updated);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      await supabase.from('orders').delete().eq('id', id);
     } catch (e) {
-      console.warn(e);
+      console.warn('Error deleting from Supabase or localStorage', e);
     }
     if (activeTicket?.id === id) setActiveTicket(null);
   };

@@ -4,10 +4,20 @@ import { PestDetection } from './components/PestDetection';
 import { MarketPrices } from './components/MarketPrices';
 import { OrderManagement } from './components/OrderManagement';
 import { CatalogBadge } from './components/CatalogBadge';
+import { AuthModal } from './components/AuthModal';
+import { AuthProvider } from './context/AuthContext';
 import { AllowedCrop, GeneratedOrder } from './types';
 import { ShieldCheck, Sprout, Building2, MapPin } from 'lucide-react';
 
 export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+function AppContent() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('detection');
   const [selectedCropForMarket, setSelectedCropForMarket] = useState<AllowedCrop | 'Todos'>('Todos');
   const [selectedCropForOrder, setSelectedCropForOrder] = useState<AllowedCrop>('Papa');
@@ -116,6 +126,9 @@ export default function App() {
           </div>
         </div>
       </footer>
+      
+      {/* Modal de Autenticación Supabase */}
+      <AuthModal />
 
     </div>
   );

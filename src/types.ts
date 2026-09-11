@@ -74,6 +74,16 @@ export interface MarketPriceRecord {
   note?: string;
 }
 
+export type UserRole = 'Agricultor Productor' | 'Comerciante Acopiador' | 'Comprador Mayorista';
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  fullName: string;
+  role: UserRole;
+  phone?: string;
+}
+
 export type OrderUnit = 'Kilogramos' | 'Jabas' | 'Sacos' | 'Toneladas';
 
 export interface OrderFormState {

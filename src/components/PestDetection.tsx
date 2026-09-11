@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { DiagnosisResult, SamplePestCase, AllowedCrop } from '../types';
 import { SAMPLE_PEST_CASES, AGRONOMIC_REJECTED_MESSAGE } from '../data/agriculturalData';
+import { runCropDiagnosis } from '../lib/supabase';
 
 interface PestDetectionProps {
   onGoToMarket: (crop: AllowedCrop) => void;
@@ -108,18 +109,7 @@ export const PestDetection: React.FC<PestDetectionProps> = ({
         payload.mimeType = customMime || mimeType;
       }
 
-      const res = await fetch('/api/diagnose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || 'Error al procesar el diagnóstico.');
-      }
-
-      const data: DiagnosisResult = await res.json();
+      const data = await runCropDiagnosis(payload);
       setDiagnosis(data);
     } catch (err: any) {
       console.error(err);
