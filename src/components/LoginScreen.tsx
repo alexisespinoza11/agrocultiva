@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { 
   Sprout, 
-  ScanEye, 
-  TrendingUp, 
-  ShoppingCart, 
   ShieldCheck, 
   Mail, 
   Lock, 
@@ -15,10 +12,8 @@ import {
   CheckCircle2, 
   AlertCircle, 
   Loader2, 
-  ArrowRight,
-  Eye,
-  EyeOff,
-  Sparkles
+  Eye, 
+  EyeOff 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
@@ -163,131 +158,65 @@ export const LoginScreen: React.FC = () => {
 
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-emerald-100 text-xs font-medium">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span className="hidden sm:inline">Autenticación Segura</span>
-          <span className="sm:hidden">Seguro</span>
+          <span>Acceso Seguro</span>
         </div>
       </header>
 
-      {/* Contenedor Principal en Grid */}
-      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex-1 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-          
-          {/* Columna Izquierda: Información de la Plataforma */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+      {/* Contenedor Principal Centrado con Tarjeta de Login */}
+      <main className="w-full max-w-md mx-auto px-4 py-8 sm:py-12 flex-1 flex items-center justify-center">
+        <div className="w-full">
+          <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 text-gray-900 border border-emerald-100/20">
             
-            {/* Badge de Catálogo Oficial */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-md">
-              <Sparkles className="w-4 h-4 text-emerald-300" />
-              <span>Plataforma Oficial para Fresa, Aguaymanto, Papa y Cebolla China</span>
-            </div>
-
-            <div className="space-y-3">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                Impulsa tu producción agrícola con <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-300 via-teal-200 to-green-300">Inteligencia Artificial</span>
-              </h2>
-              <p className="text-base sm:text-lg text-emerald-100/80 max-w-2xl font-normal leading-relaxed">
-                Accede a diagnósticos fitosanitarios inmediatos, consulta cotizaciones en tiempo real del MIDAGRI SISAP y gestiona pedidos mayoristas con trazabilidad garantizada.
+            {/* Header de la tarjeta */}
+            <div className="text-center space-y-1 mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-emerald-600/30">
+                <Sprout className="w-7 h-7" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900">
+                {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
+              </h3>
+              <p className="text-xs text-gray-500">
+                {mode === 'login' 
+                  ? 'Ingresa tus credenciales para acceder al sistema' 
+                  : 'Regístrate para gestionar diagnósticos y pedidos'}
               </p>
             </div>
 
-            {/* Tarjetas de Beneficios / Módulos */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
-              <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 space-y-2 hover:bg-white/10 transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center">
-                  <ScanEye className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-sm text-white">1. Detección IA</h3>
-                <p className="text-xs text-emerald-100/70">
-                  Identifica plagas y enfermedades con guías de control orgánico y químico.
-                </p>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 space-y-2 hover:bg-white/10 transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-sm text-white">2. Precios SISAP</h3>
-                <p className="text-xs text-emerald-100/70">
-                  Precios mayoristas actualizados por kilo, jaba y saco en Cajamarca y Lima.
-                </p>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 space-y-2 hover:bg-white/10 transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center">
-                  <ShoppingCart className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-sm text-white">3. Pedidos</h3>
-                <p className="text-xs text-emerald-100/70">
-                  Generación de órdenes y cotizaciones directas entre productores y acopiadores.
-                </p>
-              </div>
+            {/* Selector de modo Login / Registro */}
+            <div className="flex p-1 bg-gray-100 rounded-xl mb-5">
+              <button
+                type="button"
+                onClick={() => {
+                  setMode('login');
+                  setErrorMsg(null);
+                  setSuccessMsg(null);
+                }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  mode === 'login'
+                    ? 'bg-white text-emerald-800 shadow-xs'
+                    : 'text-gray-500 hover:text-gray-800'
+                }`}
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Iniciar Sesión</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMode('register');
+                  setErrorMsg(null);
+                  setSuccessMsg(null);
+                }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  mode === 'register'
+                    ? 'bg-white text-emerald-800 shadow-xs'
+                    : 'text-gray-500 hover:text-gray-800'
+                }`}
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>Registrarse</span>
+              </button>
             </div>
-
-            {/* Pills de Cultivos */}
-            <div className="pt-2 flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-emerald-200/60 font-medium">Cultivos especializados:</span>
-              <span className="px-3 py-1 rounded-lg bg-white/10 border border-white/10 text-white font-medium">🍓 Fresa</span>
-              <span className="px-3 py-1 rounded-lg bg-white/10 border border-white/10 text-white font-medium">🟡 Aguaymanto</span>
-              <span className="px-3 py-1 rounded-lg bg-white/10 border border-white/10 text-white font-medium">🥔 Papa</span>
-              <span className="px-3 py-1 rounded-lg bg-white/10 border border-white/10 text-white font-medium">🧅 Cebolla China</span>
-            </div>
-
-          </div>
-
-          {/* Columna Derecha: Tarjeta de Login / Registro */}
-          <div className="lg:col-span-5 w-full">
-            <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 text-gray-900 border border-emerald-100/20">
-              
-              {/* Header de la tarjeta */}
-              <div className="text-center space-y-1 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-emerald-600/30">
-                  <Sprout className="w-7 h-7" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
-                </h3>
-                <p className="text-xs text-gray-500">
-                  {mode === 'login' 
-                    ? 'Ingresa a tu cuenta de productor o comerciante' 
-                    : 'Regístrate para gestionar diagnósticos y pedidos'}
-                </p>
-              </div>
-
-              {/* Selector de modo Login / Registro */}
-              <div className="flex p-1 bg-gray-100 rounded-xl mb-5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode('login');
-                    setErrorMsg(null);
-                    setSuccessMsg(null);
-                  }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                    mode === 'login'
-                      ? 'bg-white text-emerald-800 shadow-xs'
-                      : 'text-gray-500 hover:text-gray-800'
-                  }`}
-                >
-                  <LogIn className="w-3.5 h-3.5" />
-                  <span>Iniciar Sesión</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode('register');
-                    setErrorMsg(null);
-                    setSuccessMsg(null);
-                  }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                    mode === 'register'
-                      ? 'bg-white text-emerald-800 shadow-xs'
-                      : 'text-gray-500 hover:text-gray-800'
-                  }`}
-                >
-                  <UserPlus className="w-3.5 h-3.5" />
-                  <span>Registrarse</span>
-                </button>
-              </div>
 
               {/* Alertas */}
               {errorMsg && (
@@ -438,8 +367,6 @@ export const LoginScreen: React.FC = () => {
 
             </div>
           </div>
-
-        </div>
       </main>
 
       {/* Footer de la pantalla de bienvenida */}
